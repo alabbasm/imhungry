@@ -14,7 +14,4 @@ include:
 # Enable the dark skin
 minima:
   skin: dark
-  social_links:
-    github: alabbasm
-
 

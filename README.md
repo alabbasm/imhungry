@@ -140,6 +140,11 @@ The distribution of recipe cooking times is right-skewed, with most recipes taki
 
 We can also see if certain types of recipes tend to take longer. For example, a boxplot of `minutes` grouped by `recipe_type` could show that *desserts* versus *main dishes* have different prep time distributions. We can see that there's definite variance between the different `recipe type`'s. A table grouped by recipe types showing the mean of every recipe type in ascending order shows this a bit better.
 
+<div style="text-align: center;">
+  <iframe src="assets/min_by_r_type_1.html" width="800" height="400" style="border:none;"></iframe>
+  <div style="text-align: center; font-style: italic;">Figure 6: Minutes by Recipe Type</div>
+</div>
+
 <div class="centered-plot">
   <iframe src="assets/min_by_r_type_1.html" 
   width="1200" height="400"
