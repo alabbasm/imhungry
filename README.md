@@ -1,5 +1,3 @@
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
-
 # *I'm starving, how long is dinner gonna take?*  
 *A multiple linear regression approach to predicting the number of minutes needed to make your dinner.*
 
@@ -43,7 +41,7 @@ To start let's report some information about our datasets. We have two: `recipes
 ## Data Cleaning and Exploratory Data Analysis  
 
 
-### Cleaning the rating data  
+### Cleaning our data  
 We began by merging the two datasets (`recipes.csv` and `ratings.csv`) on their shared `id` column so that each recipe would include the user feedback. From the ratings, we computed the average rating per recipe and added this as a new column.
 
 Interestingly, we noticed that some ratings were recorded as **0**, which isn’t part of the expected 1–5 scale. We interpreted these as **missing or invalid entries**, and treated them accordingly. For recipes with no valid ratings, we **imputed the missing average rating** using the overall mean rating from the dataset. This ensured that every recipe had a value for `avg_rating` and prevented missing data from derailing our model later.
@@ -55,7 +53,7 @@ The distribtuion of the `avg_rating` column pre and post imputation is shown bel
   <div class="caption">Figure 1: Rating before and after mean imputation</div>
 </div>
 
-We can see that mean imputation does not destroy the over trend of the data, so it seems like a fine technique to use. 
+We can see that mean imputation does not destroy the overall trend of the data, so it seems like a fine technique to use. 
 
 The `nutrition` column of our resulting dataset was stored as string representations of Python lists — for example, the `ingredients`, `steps`, `tags`, and `nutrition` fields. This is a bit unqeildy, so we used the `ast.literal_eval()` function to convert them into actual lists. We then unpacked those lists into columns of their own giving us the following columns:
 - `calories`
@@ -66,9 +64,17 @@ The `nutrition` column of our resulting dataset was stored as string representat
 - `saturated fat`
 - `carbohydrates`
 
-### Cleaning Outliers
+### Filtering for outliers
 During our EDA it was found that many of the numerical columns like `minutes`, `calories`, etc had some very obnoxious outliers that were not realistic values at all. Realistically, we plan for this model to be used by hungry and eachausted college students who come home and just want a quick estimate of how long dinner or any other meal is going to tak them to make. For this reason we decided to remove all recipes that aren't inline with the recommended number of macronutrients for a given meal:
-- For the macronutrient columns (`calories`,`protein`,`total fat`,`sugar`,`saturated fat`), an arbitrary calorie cap of 1000 cal was chosen, and the bounds for the other macros were chosen based off the (AMDR's)[https://supplysix.com/blogs/all/acceptable-macronutrient-ranges-and-healthy-diets-for-adults?srsltid=AfmBOoqEKFfdXNCOsxzDD2wbRW8EXQl5jwfPpaY5jjuPer7TUMYY89yJ] guidelines for an average healthy adult's nutritional intake. Since the data was already in a PDV format, it was easy to filter based off the given AMDR guidelines.
+- For the macronutrient columns (`calories`,`protein`,`total fat`,`sugar`,`saturated fat`), an arbitrary calorie cap of 1000 cal was chosen, and the bounds for the other macros were chosen based off the [AMDR's](https://supplysix.com/blogs/all/acceptable-macronutrient-ranges-and-healthy-diets-for-adults?srsltid=AfmBOoqEKFfdXNCOsxzDD2wbRW8EXQl5jwfPpaY5jjuPer7TUMYY89yJ) guidelines for an average healthy adult's nutritional intake. Since the data was already in a PDV format, it was easy to filter based off the given AMDR guidelines. The cutoffs are given below:
+
+| **Macronutrient** | **Recommended Range (% Daily Calories)** |
+|-------------------|-------------------------------------------|
+| **Carbohydrates** | 45–65%                                    |
+| **Fat**           | 20–35%                                    |
+| **Protein**       | 10–35%                                    |
+| **Added Sugars**  | <10%                                      |
+| **Saturated Fat** | <10%                                      |
 
 - For the `minutes` column, a cutoff of 65 minutes was chosen in part because it is the 75th quartile of the minutes values, and because a person making dinner isn't likely to spend more than an hour making dinner.
 
@@ -88,7 +94,15 @@ To make it easier on a potential user of this model, the macronutrient columns (
 Many recipes have a list of tags (like “vegetarian” or “dessert”), but we created a simpler **recipe type** feature using text analysis. We applied TF-IDF on the following columns post cleaning to find characteristic keywords for each recipe; `name`,`tags`,`steps`,`description`,`ingredients`,`review`.
 Each recipe was then labeled with the top TF-IDF keyword as its “type.”  We then only kept the top 40 most frequent terms from our pseudo `recipe_types` column, and classified the other recipe types as `other`. This was becuase many of the low frequency terms returned some nonsensical word that did not accurately represent the recipe at all. A list of some of those top words are presented below:
 
-'potatoes', 'rice', 'beans', 'asparagus', ...
+|    | word     |   count |
+|---:|:---------|--------:|
+|  0 | other    |    3088 |
+|  1 | potatoes |     230 |
+|  2 | rice     |     224 |
+|  3 | beans    |     124 |
+|  4 | coffee   |     101 |
+
+<p align="left"><em>Table 1: Top 5 TF-IDF classifications by frequency</em></p>
 
 It's important to note here that a lot of the values in `recipe_type` may not actually have names representative of the actual recipe, but may be associated with the recipe, ie. a major ingredient used in the recipe or something similar. Thus if a user doesn't find the name of their recipe in the column, they may use a common ingredient found in their recipe that is found in the column. Otherwise they must select the `other` option when using our model. 
 
@@ -137,7 +151,7 @@ We can also see if certain types of recipes tend to take longer. For example, a 
 | flour         |   27.6122 | asparagus     |   22.38   | cocktail      |   3.62162 |
 | bread         |   25.9518 | sesame        |   22.122  | nan           | nan       |
 
-<p align="center"><em>Table 1: Average cooking time by recipe type</em></p>
+<p align="left"><em>Table 2: Average cooking time by recipe type</em></p>
 
 What about relationships between `minutes` and other numeric features? Intuitively, recipes with more steps or ingredients might take more time. We explore scatter plots of `minutes` vs. `n_steps` (number of steps in the instructions) and vs. `n_ingredients`. As expected, there is a *slight* upward trend: recipes with more steps and ingredients do tend to require more minutes. It’s not a perfect correlation, but the positive association is there. 
 
@@ -191,8 +205,7 @@ We also looked at the learned coefficients to interpret the baseline model. The 
 | dressing  |    -5.83 | potatoes  |    14.37 | calories  |     0.01 |
 | drink     |   -11.58 | pumpkin   |     6.9  | n_steps   |     1.27 |
 
-<p align="center"><em>Table 2: Features and their respective weights computed by our model</em></p>
-
+<p align="left"><em>Table 3: Features and their respective weights computed by our model</em></p>
 
 <div class="centered-plot">
   <iframe src="assets/min_vs_step_cal.html" width="1000" height="600"></iframe>
@@ -243,12 +256,11 @@ Whew! That’s a lot of moving parts. To manage this systematically, we set up a
 | `degree`               |       [1,2,3]             |         1              |
 | `alpha`                |     [0.01,0.1,1,5,10]     |          10            |
 
-<p align="center"><em>Table 3: Chosen Hyper parameters and their optimal values</em></p>
+<p align="left"><em>Table 4: Chosen Hyper parameters and their optimal values</em></p>
 
 After quite a bit of number crunching, we arrived at a final model. Interestingly, the best combination of transformations was to use a **logarithmic transform** (with a relatively high decay rate parameter) on certain features, along with polynomial features of degree 1. (It’s hard to interpret exactly what this means physically, but it suggests some diminishing returns in one area and maybe an overall linear growth in others). The best model ended up being a plain ridge regression with an alpha value of 10 (linear regression didn’t outperform it, though it was very close, implying our features were not causing huge overfitting issues).  
 
 **Final model performance:** Drumroll, please... The improved model brought the test MSE down to about **145**. That’s roughly a 15% reduction in MSE compared to the baseline (170 → 145). In terms of root mean squared error, we went from ~14.8 minutes off to ~12 minutes off. So we gained about a one-minute improvement in average error by all that fancy feature engineering and tuning. Not a huge drop, but an improvement nonetheless!  
-
 
 |                Model Type                |   Train MSE |   Test MSE |
 |:-------------------------------|------------:|-----------:|
@@ -259,7 +271,7 @@ After quite a bit of number crunching, we arrived at a final model. Interestingl
 | Ridge Regression w Log feat.   |     145.313 |    145.239 |
 | Ridge Regression w both feat. (Final Model) |     145.314 |    145.246 |
 
-<p align="center"><em>Table 4: All models trained and their respective training and testing MSE's</em></p>
+<p align="left"><em>Table 5: All models trained and their respective training and testing MSE's</em></p>
 
 We should ask: is this level of error acceptable? **12-13 minutes uncertainty** for a recipe’s cook time might be okay for some scenarios (predicting ~30 min vs actual 45 min is not too bad), but it’s still quite high if someone needs a very accurate estimate. It seems that predicting `minutes` is inherently tricky with the given data. Recipes can always have unobserved factors (technique difficulty, user skill, etc.) that affect prep time. Our model captures the obvious factors, but the variability in cooking is large.  
 
