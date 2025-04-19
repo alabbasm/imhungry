@@ -4,7 +4,7 @@ author: Malik Alabbas
 email: alabbas@umich.com
 theme: minima
 
-
+markdown: kramdown
 # Enable the dark skin
 minima:
   skin: dark
