@@ -119,21 +119,23 @@ Each recipe was then labeled with the top TF-IDF keyword as its “type.”  We 
 
 It's important to note here that a lot of the values in `recipe_type` may not actually have names representative of the actual recipe, but may be associated with the recipe, ie. a major ingredient used in the recipe or something similar. Thus if a user doesn't find the name of their recipe in the column, they may use a common ingredient found in their recipe that is found in the column. Otherwise they must select the `other` option when using our model. 
 
-Here's the head of `X_recipes`, the final cleaned dataframe that is used in the rest of our project.
+Here's are all the features included in `X_recipes`, the final cleaned dataframe that is used in the rest of our project.
 
-<div style="overflow-x: auto;">
-  <table>
-
-|    | name                                |   minutes |   n_steps |   n_ingredients |   rating |   calories |   total_fat_g |   saturated_fat_g |   sugar_g |   protein_g |   sodium_mg |   carbohydrates_g | recipe_type   |
-|---:|:------------------------------------|----------:|----------:|----------------:|---------:|-----------:|--------------:|------------------:|----------:|------------:|------------:|------------------:|:--------------|
-| 13 | pinards en branche  sauted spinach  |        50 |        13 |               4 |     5    |       61.8 |          3.9  |               1.8 |       1   |         4.5 |         138 |              2.75 | spinach       |
-| 16 | bbq spray recipe    it really works |         5 |         5 |               3 |     4.75 |       47.2 |          0    |               0   |       1   |         0   |           0 |              0    | other         |
-| 17 | berry french toast  oatmeal         |        12 |         5 |               6 |     4.75 |      190.9 |          6.24 |               0.6 |       1   |         6.5 |           0 |             24.75 | other         |
-| 32 | near east  rice pilaf  low fat      |        25 |         8 |               8 |     4.5  |      236.9 |          2.34 |               0.2 |       0.5 |         5   |           0 |             41.25 | chicken       |
-| 33 | outback   steak rub                 |         5 |         1 |               8 |     4    |        6.6 |          0    |               0   |       0   |         0   |         874 |              0    | other         |
-
-  </table>
-</div>
+| Column Name           | Description                          |
+|-----------------------|--------------------------------------|
+| name                  | Name of the recipe                   |
+| minutes               | Total preparation time (in minutes)  |
+| n_steps               | Number of preparation steps          |
+| n_ingredients         | Number of ingredients used           |
+| rating                | User rating of the recipe            |
+| calories              | Estimated calories per serving       |
+| total_fat_g           | Total fat content (grams)            |
+| saturated_fat_g       | Saturated fat content (grams)        |
+| sugar_g               | Sugar content (grams)                |
+| protein_g             | Protein content (grams)              |
+| sodium_mg             | Sodium content (milligrams)          |
+| carbohydrates_g       | Carbohydrates content (grams)        |
+| recipe_type           | Category/type of recipe              |
 
 ### Exploring the `minutes` column  
 Now, let’s dive into the data! First up: **cooking time (`minutes`)**. How are recipe durations distributed? Is there a typical cook time most recipes fall under? In a histogram of `minutes`, we might see a peak around shorter times (e.g. many recipes take 20-40 minutes) and a long tail of recipes that take hours. 
