@@ -85,8 +85,6 @@ During our EDA it was found that many of the numerical columns like `minutes`, `
 
 To make it easier on a potential user of this model, the macronutrient columns (`calories`,`protein`,`total fat`,`sugar`,`saturated fat`), were converted from PDV to grams, as its more likely a user would know the macaronutrients in their recipe as grams, not as a PDV.  
 
-<br>
-
  <div class="centered-plot">
   <iframe src="assets/minutes_before_filt_1.html" 
   width="1200" height="500"
@@ -95,7 +93,7 @@ To make it easier on a potential user of this model, the macronutrient columns (
   <div class="caption">Figure 2: Minutes Before Filtering</div>
 </div>
 
-<br><br>
+<br>
 
 <div class="centered-plot">
   <iframe src="assets/minutes_after_filt_1.html" 
@@ -104,8 +102,6 @@ To make it easier on a potential user of this model, the macronutrient columns (
   ></iframe>
   <div class="caption">Figure 3: Minutes After Filtering</div>
 </div>
-
-<br>
 
 ### Determining recipe types  
 Many recipes have a list of tags (like “vegetarian” or “dessert”), but we created a simpler **recipe type** feature using text analysis. We applied TF-IDF on the following columns post cleaning to find characteristic keywords for each recipe; `name`,`tags`,`steps`,`description`,`ingredients`,`review`.
@@ -120,8 +116,6 @@ Each recipe was then labeled with the top TF-IDF keyword as its “type.”  We 
 |  4 | coffee   |     101 |
 
 <p align="left"><em>Table 1: Top 5 TF-IDF classifications by frequency</em></p>
-
-<br>
 
 It's important to note here that a lot of the values in `recipe_type` may not actually have names representative of the actual recipe, but may be associated with the recipe, ie. a major ingredient used in the recipe or something similar. Thus if a user doesn't find the name of their recipe in the column, they may use a common ingredient found in their recipe that is found in the column. Otherwise they must select the `other` option when using our model. 
 
@@ -139,8 +133,6 @@ Here's the head of `X_recipes`, the final cleaned dataframe that is used in the 
 ### Exploring the `minutes` column  
 Now, let’s dive into the data! First up: **cooking time (`minutes`)**. How are recipe durations distributed? Is there a typical cook time most recipes fall under? In a histogram of `minutes`, we might see a peak around shorter times (e.g. many recipes take 20-40 minutes) and a long tail of recipes that take hours. 
 
-<br><br>
-
 <div class="centered-plot">
   <iframe src="assets/minutes_after_filt.html" 
   width="1200" height="600"
@@ -149,13 +141,9 @@ Now, let’s dive into the data! First up: **cooking time (`minutes`)**. How are
   <div class="caption">Figure 4: Distribution of Minutes</div>
 </div>
 
-<br><br>
-
 The distribution of recipe cooking times is right-skewed, with most recipes taking under 60 minutes. This tells us that quick meals dominate the dataset, with some rough peaks aroung the 30-40 min range.
 
 We can also see if certain types of recipes tend to take longer. For example, a boxplot of `minutes` grouped by `recipe_type` could show that *desserts* versus *main dishes* have different prep time distributions. We can see that there's definite variance between the different `recipe type`'s. A table grouped by recipe types showing the mean of every recipe type in ascending order shows this a bit better.
-
-<br><br>
 
 <div class="centered-plot">
   <iframe src="assets/min_by_r_type_1.html" 
@@ -165,7 +153,7 @@ We can also see if certain types of recipes tend to take longer. For example, a 
   <div class="caption">Figure 6: Minutes by Recipe Type</div>
 </div>
 
-<br><br>
+<br>
 
  | recipe_type   |   minutes | recipe_type   |   minutes | recipe_type   |   minutes |
 |:--------------|----------:|:--------------|----------:|:--------------|----------:|
@@ -186,21 +174,20 @@ We can also see if certain types of recipes tend to take longer. For example, a 
 
 <p align="left"><em>Table 2: Average cooking time by recipe type</em></p>
 
-<br><br>
-
-
 What about relationships between `minutes` and other numeric features? Intuitively, recipes with more steps or ingredients might take more time. We explore scatter plots of `minutes` vs. `n_steps` (number of steps in the instructions) and vs. `n_ingredients`. As expected, there is a *slight* upward trend: recipes with more steps and ingredients do tend to require more minutes. It’s not a perfect correlation, but the positive association is there. 
 
 <div class="centered-plot">
-  <iframe src="assets/min_vs_step.html"
+  <iframe src="assets/minute_vs_step.html"
    width="1200" height="600"
   frameborder="0"
   ></iframe>
   <div class="caption">Figure 7: Scatter Plot of minutes vs n_step</div>
 </div>
 
+<br>
+
 <div class="centered-plot">
-  <iframe src="assets/min_vs_ing.html" 
+  <iframe src="assets/minute_vs_ing.html" 
   width="1200" height="600"
   frameborder="0"
   ></iframe>
@@ -249,8 +236,6 @@ We also looked at the learned coefficients to interpret the baseline model. The 
 
 <p align="left"><em>Table 3: Features and their respective weights computed by our model</em></p>
 
-<br>
-
 <div class="centered-plot">
   <iframe src="assets/min_vs_step_cal.html" 
   width="1200" height="700"
@@ -258,8 +243,6 @@ We also looked at the learned coefficients to interpret the baseline model. The 
   ></iframe>
   <div class="caption">Figure 8: Overlaid predicition of our baseline model</div>
 </div>
-
-<br>
 
 In summary, the baseline linear model captures some obvious signals (steps matter!), but it’s not very accurate yet. We’ll use this as a reference point for building a better model.  
 
@@ -307,8 +290,6 @@ Whew! That’s a lot of moving parts. To manage this systematically, we set up a
 
 <p align="left"><em>Table 4: Chosen Hyper parameters and their optimal values</em></p>
 
-<br>
-
 After quite a bit of number crunching, we arrived at a final model. Interestingly, the best combination of transformations was to use a **logarithmic transform** (with a relatively high decay rate parameter) on certain features, along with polynomial features of degree 1. (It’s hard to interpret exactly what this means physically, but it suggests some diminishing returns in one area and maybe an overall linear growth in others). The best model ended up being a plain ridge regression with an alpha value of 10 (linear regression didn’t outperform it, though it was very close, implying our features were not causing huge overfitting issues).  
 
 **Final model performance:** Drumroll, please... The improved model brought the test MSE down to about **145**. That’s roughly a 15% reduction in MSE compared to the baseline (170 → 145). In terms of root mean squared error, we went from ~14.8 minutes off to ~12 minutes off. So we gained about a one-minute improvement in average error by all that fancy feature engineering and tuning. Not a huge drop, but an improvement nonetheless!  
@@ -323,8 +304,6 @@ After quite a bit of number crunching, we arrived at a final model. Interestingl
 | Ridge Regression w both feat. (Final Model) |     145.314 |    145.246 |
 
 <p align="left"><em>Table 5: All models trained and their respective training and testing MSE's</em></p>
-
-<br>
 
 We should ask: is this level of error acceptable? **12-13 minutes uncertainty** for a recipe’s cook time might be okay for some scenarios (predicting ~30 min vs actual 45 min is not too bad), but it’s still quite high if someone needs a very accurate estimate. It seems that predicting `minutes` is inherently tricky with the given data. Recipes can always have unobserved factors (technique difficulty, user skill, etc.) that affect prep time. Our model captures the obvious factors, but the variability in cooking is large.  
 
