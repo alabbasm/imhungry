@@ -1,8 +1,3 @@
----
-layout: default
-title: Home
----
-
 *A multiple linear regression approach to predicting the number of minutes needed to make your dinner.*
 
 ## Introduction  
