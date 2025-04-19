@@ -50,7 +50,7 @@ The distribtuion of the `avg_rating` column pre and post imputation is shown bel
 <div class="centered-plot">
   <iframe 
   src="assets/rating_kde_imputation.html" 
-  width="1200" height="410"
+  width="1200" height="400"
    frameborder="0"
 ></iframe>
   <div class="caption">Figure 1: Rating before and after mean imputation</div>
@@ -85,7 +85,7 @@ To make it easier on a potential user of this model, the macronutrient columns (
 
  <div class="centered-plot">
   <iframe src="assets/minutes_before_filt_1.html" 
-  width="1200" height="410"
+  width="1200" height="400"
   frameborder="0"
   ></iframe>
   <div class="caption">Figure 2: Minutes Before Filtering</div>
@@ -173,7 +173,7 @@ We can also see if certain types of recipes tend to take longer. For example, a 
 What about relationships between `minutes` and other numeric features? Intuitively, recipes with more steps or ingredients might take more time. We explore scatter plots of `minutes` vs. `n_steps` (number of steps in the instructions) and vs. `n_ingredients`. As expected, there is a *slight* upward trend: recipes with more steps and ingredients do tend to require more minutes. It’s not a perfect correlation, but the positive association is there. 
 
 <div class="centered-plot">
-  <iframe src="assets/min_vs_nstep.html"
+  <iframe src="assets/min_vs_nsteps.html"
    width="1200" height="400"
   frameborder="0"
   ></iframe>
