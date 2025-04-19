@@ -6,6 +6,7 @@ theme: minima
 
 sass:
   load_paths:
+    - _sass/minima
     - _sass
 
 include:
