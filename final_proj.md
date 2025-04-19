@@ -48,6 +48,13 @@ Interestingly, we noticed that some ratings were recorded as **0**, which isn’
 
 The distribtuion of the `avg_rating` column pre and post imputation is shown below. 
 
+<iframe
+ src="assets/rating_kde_imputation.html"
+ width="800"
+ height="600"
+ frameborder="0"
+ ></iframe>
+
 *[Insert visualization of rating distribution before vs. after imputation here, or a statistic showing the negligible change]*  
 
 We can see that mean imputation does not destroy the over trend of the data, so it seems like a fine technique to use. 
@@ -73,6 +80,23 @@ During our EDA it was found that many of the numerical columns like `minutes`, `
 To make it easier on a potential user of this model, the macronutrient columns (`calories`,`protein`,`total fat`,`sugar`,`saturated fat`), were converted from PDV to grams, as its more likely a user would know the macaronutrients in their recipe as grams, not as a PDV.  
 
 
+
+<iframe
+ src="assets/minutes_before_filt.html"
+ width="800"
+ height="600"
+ frameborder="0"
+ ></iframe>
+
+
+ <iframe
+ src="assets/minutes_after_filt.html"
+ width="800"
+ height="600"
+ frameborder="0"
+ ></iframe>
+
+
 [insert side by side plots of pre and post filtered `minutes` column]
 
 
@@ -86,14 +110,43 @@ It's important to note here that a lot of the values in `recipe_type` may not ac
 
 Here's the head of `X_recipes`, the final cleaned dataframe that is used in the rest of our project.
 
-[insert X_recipe.html here]
+<iframe
+ src="assets/X_recipes.html"
+ width="800"
+ height="600"
+ frameborder="0"
+ ></iframe>
+
 
 ### Exploring the `minutes` column  
 Now, let’s dive into the data! First up: **cooking time (`minutes`)**. How are recipe durations distributed? Is there a typical cook time most recipes fall under? In a histogram of `minutes`, we might see a peak around shorter times (e.g. many recipes take 20-40 minutes) and a long tail of recipes that take hours. 
 
-*[Insert visualization of the distribution of recipe `minutes` (e.g. a histogram or boxplot) here]*  
 
-| recipe_type   |   minutes | recipe_type   |   minutes | recipe_type   |   minutes |
+<iframe
+ src="assets/minutes_after_filt.html"
+ width="800"
+ height="600"
+ frameborder="0"
+ ></iframe>
+
+*[Insert visualization of the distribution of recipe `minutes` (e.g. a histogram or boxplot) here]* 
+
+The distribution of recipe cooking times is right-skewed, with most recipes taking under 60 minutes. This tells us that quick meals dominate the dataset, with some rough peaks aroung the 30-40 min range.
+
+We can also see if certain types of recipes tend to take longer. For example, a boxplot of `minutes` grouped by `recipe_type` could show that *desserts* versus *main dishes* have different prep time distributions. We can see that there's definite variance between the different `recipe type`'s. A table grouped by recipe types showing the mean of every recipe type in ascending order shows this a bit better.
+
+[insert table]
+
+
+ <iframe
+ src="assets/min_by_r_type.html"
+ width="800"
+ height="600"
+ frameborder="0"
+ ></iframe>
+
+
+ | recipe_type   |   minutes | recipe_type   |   minutes | recipe_type   |   minutes |
 |:--------------|----------:|:--------------|----------:|:--------------|----------:|
 | dough         |   38.9268 | spinach       |   25.8191 | sauce         |  21.4756  |
 | potatoes      |   38.1304 | eggs          |   25.5667 | other         |  20.4615  |
@@ -110,17 +163,26 @@ Now, let’s dive into the data! First up: **cooking time (`minutes`)**. How are
 | flour         |   27.6122 | asparagus     |   22.38   | cocktail      |   3.62162 |
 | bread         |   25.9518 | sesame        |   22.122  | nan           | nan       |
 
-The distribution of recipe cooking times is right-skewed, with most recipes taking under 60 minutes. This tells us that quick meals dominate the dataset, with some rough peaks aroung the 30-40 min range.
-
-We can also see if certain types of recipes tend to take longer. For example, a boxplot of `minutes` grouped by `recipe_type` could show that *desserts* versus *main dishes* have different prep time distributions. We can see that there's definite variance between the different `recipe type`'s. A table grouped by recipe types showing the mean of every recipe type in ascending order shows this a bit better.
-
-[insert table]
-
 *[Insert boxplot of `minutes` by recipe type here, table of ascending means of time per recipe type]*  
 
 What about relationships between `minutes` and other numeric features? Intuitively, recipes with more steps or ingredients might take more time. We explore scatter plots of `minutes` vs. `n_steps` (number of steps in the instructions) and vs. `n_ingredients`. As expected, there is a *slight* upward trend: recipes with more steps and ingredients do tend to require more minutes. It’s not a perfect correlation, but the positive association is there. 
 
 *[Insert scatter plot: `minutes` vs. `n_steps`, and `minutes` vs. `n_ingredients` here]*  
+
+ <iframe
+ src="assets/min_vs_step.html"
+ width="800"
+ height="600"
+ frameborder="0"
+ ></iframe>
+
+
+ <iframe
+ src="assets/min_vs_ing.html"
+ width="800"
+ height="600"
+ frameborder="0"
+ ></iframe>
 
 ## Framing a Prediction Problem  
 After exploring, we decided our goal is to predict **cooking time (`minutes`)**. Cooking time is more directly useful to someone planning a meal – knowing if a dish takes 15 minutes versus 2 hours is valuable! Ratings are interesting but subjective, and calorie counts depend a lot on portion sizes, which vary by recipe.  
@@ -162,6 +224,13 @@ We also looked at the learned coefficients to interpret the baseline model. The 
 | dressing  |    -5.83 | potatoes  |    14.37 | calories  |     0.01 |
 | drink     |   -11.58 | pumpkin   |     6.9  | n_steps   |     1.27 |
 
+
+<iframe
+ src="assets/min_vs_step_cal.html"
+ width="800"
+ height="600"
+ frameborder="0"
+ ></iframe>
 
 *[Plotly plot of model, table of optimal parameter weights]*  
 
