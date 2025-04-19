@@ -48,8 +48,8 @@ The distribtuion of the `avg_rating` column pre and post imputation is shown bel
 
 <div class="centered-plot">
   <iframe 
-  src="assets/rating_kde_imputation.html" 
-  width="1200" height="400"
+  src="assets/ratingimputat.html" 
+  width="1000" height="400"
    frameborder="0"
 ></iframe>
   <div class="caption">Figure 1: Rating before and after mean imputation</div>
@@ -91,7 +91,7 @@ To make it easier on a potential user of this model, the macronutrient columns (
 </div>
 
 <div class="centered-plot">
-  <iframe src="assets/minutes_after_filt_1.html" 
+  <iframe src="assets/minafterfilt.html" 
   width="1000" height="400"
   frameborder="0"
   ></iframe>
@@ -116,6 +116,9 @@ It's important to note here that a lot of the values in `recipe_type` may not ac
 
 Here's the head of `X_recipes`, the final cleaned dataframe that is used in the rest of our project.
 
+<div style="overflow-x: auto;">
+  <table>
+
 |    | name                                |   minutes |   n_steps |   n_ingredients |   rating |   calories |   total_fat_g |   saturated_fat_g |   sugar_g |   protein_g |   sodium_mg |   carbohydrates_g | recipe_type   |
 |---:|:------------------------------------|----------:|----------:|----------------:|---------:|-----------:|--------------:|------------------:|----------:|------------:|------------:|------------------:|:--------------|
 | 13 | pinards en branche  sauted spinach  |        50 |        13 |               4 |     5    |       61.8 |          3.9  |               1.8 |       1   |         4.5 |         138 |              2.75 | spinach       |
@@ -124,12 +127,15 @@ Here's the head of `X_recipes`, the final cleaned dataframe that is used in the 
 | 32 | near east  rice pilaf  low fat      |        25 |         8 |               8 |     4.5  |      236.9 |          2.34 |               0.2 |       0.5 |         5   |           0 |             41.25 | chicken       |
 | 33 | outback   steak rub                 |         5 |         1 |               8 |     4    |        6.6 |          0    |               0   |       0   |         0   |         874 |              0    | other         |
 
+  </table>
+</div>
+
 ### Exploring the `minutes` column  
 Now, let’s dive into the data! First up: **cooking time (`minutes`)**. How are recipe durations distributed? Is there a typical cook time most recipes fall under? In a histogram of `minutes`, we might see a peak around shorter times (e.g. many recipes take 20-40 minutes) and a long tail of recipes that take hours. 
 
 <div class="centered-plot">
-  <iframe src="assets/minutes_after_filt.html" 
-  width="1200" height="400"
+  <iframe src="assets/minafterfilt.html" 
+  width="1000" height="400"
   frameborder="0"
   ></iframe>
   <div class="caption">Figure 4: Distribution of Minutes</div>
@@ -139,14 +145,9 @@ The distribution of recipe cooking times is right-skewed, with most recipes taki
 
 We can also see if certain types of recipes tend to take longer. For example, a boxplot of `minutes` grouped by `recipe_type` could show that *desserts* versus *main dishes* have different prep time distributions. We can see that there's definite variance between the different `recipe type`'s. A table grouped by recipe types showing the mean of every recipe type in ascending order shows this a bit better.
 
-<div style="text-align: center;">
-  <iframe src="assets/min_by_r_type_1.html" width="1000" height="400" style="border:none;"></iframe>
-  <div style="text-align: center; font-style: italic;">Figure 5: Minutes by Recipe Type</div>
-</div>
-
 <div class="centered-plot">
-  <iframe src="assets/min_by_r_type_1.html" 
-  width="1200" height="400"
+  <iframe src="assets/minbytype.html" 
+  width="1000" height="400"
   frameborder="0"
   ></iframe>
   <div class="caption">Figure 5: Minutes by Recipe Type</div>
@@ -176,8 +177,8 @@ We can also see if certain types of recipes tend to take longer. For example, a 
 What about relationships between `minutes` and other numeric features? Intuitively, recipes with more steps or ingredients might take more time. We explore scatter plots of `minutes` vs. `n_steps` (number of steps in the instructions) and vs. `n_ingredients`. As expected, there is a *slight* upward trend: recipes with more steps and ingredients do tend to require more minutes. It’s not a perfect correlation, but the positive association is there. 
 
 <div class="centered-plot">
-  <iframe src="assets/min_vs_nsteps.html"
-   width="1200" height="400"
+  <iframe src="assets/minvsstep.html"
+   width="1000" height="400"
   frameborder="0"
   ></iframe>
   <div class="caption">Figure 6: Scatter Plot of minutes vs n_step</div>
@@ -186,8 +187,8 @@ What about relationships between `minutes` and other numeric features? Intuitive
 <br>
 
 <div class="centered-plot">
-  <iframe src="assets/min_vs_ning.html" 
-  width="1200" height="400"
+  <iframe src="assets/minvsing.html" 
+  width="1000" height="400"
   frameborder="0"
   ></iframe>
   <div class="caption">Figure 7: Scatter Plot of minutes vs n_ingredients</div>
@@ -236,8 +237,8 @@ We also looked at the learned coefficients to interpret the baseline model. The 
 <p align="left"><em>Table 3: Features and their respective weights computed by our model</em></p>
 
 <div class="centered-plot">
-  <iframe src="assets/min_vs_step_cal.html" 
-  width="1200" height="600"
+  <iframe src="assets/minvsstepcal.html" 
+  width="1000" height="600"
   frameborder="0"
   ></iframe>
   <div class="caption">Figure 8: Overlaid predicition of our baseline model</div>
