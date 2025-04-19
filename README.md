@@ -85,7 +85,7 @@ To make it easier on a potential user of this model, the macronutrient columns (
 
  <div class="centered-plot">
   <iframe src="assets/minutes_before_filt_1.html" 
-  width="1200" height="540"
+  width="1200" height="400"
   frameborder="0"
   ></iframe>
   <div class="caption">Figure 2: Minutes Before Filtering</div>
@@ -103,13 +103,14 @@ To make it easier on a potential user of this model, the macronutrient columns (
 Many recipes have a list of tags (like “vegetarian” or “dessert”), but we created a simpler **recipe type** feature using text analysis. We applied TF-IDF on the following columns post cleaning to find characteristic keywords for each recipe; `name`,`tags`,`steps`,`description`,`ingredients`,`review`.
 Each recipe was then labeled with the top TF-IDF keyword as its “type.”  We then only kept the top 40 most frequent terms from our pseudo `recipe_types` column, and classified the other recipe types as `other`. This was becuase many of the low frequency terms returned some nonsensical word that did not accurately represent the recipe at all. A list of some of those top words are presented below:
 
-|    | word     |   count |
-|---:|:---------|--------:|
-|  0 | other    |    3088 |
-|  1 | potatoes |     230 |
-|  2 | rice     |     224 |
-|  3 | beans    |     124 |
-|  4 | coffee   |     101 |
+| word     |   count |
+|:---------|--------:|
+| other    |    3088 |
+| potatoes |     230 |
+| rice     |     224 |
+| beans    |     124 |
+| coffee   |     101 |
+
 <p align="left"><em>Table 1: Top 5 TF-IDF classifications by frequency</em></p>
 
 It's important to note here that a lot of the values in `recipe_type` may not actually have names representative of the actual recipe, but may be associated with the recipe, ie. a major ingredient used in the recipe or something similar. Thus if a user doesn't find the name of their recipe in the column, they may use a common ingredient found in their recipe that is found in the column. Otherwise they must select the `other` option when using our model. 
@@ -172,7 +173,7 @@ We can also see if certain types of recipes tend to take longer. For example, a 
 What about relationships between `minutes` and other numeric features? Intuitively, recipes with more steps or ingredients might take more time. We explore scatter plots of `minutes` vs. `n_steps` (number of steps in the instructions) and vs. `n_ingredients`. As expected, there is a *slight* upward trend: recipes with more steps and ingredients do tend to require more minutes. It’s not a perfect correlation, but the positive association is there. 
 
 <div class="centered-plot">
-  <iframe src="assets/minute_vs_step.html"
+  <iframe src="assets/min_vs_step.html"
    width="1200" height="400"
   frameborder="0"
   ></iframe>
@@ -182,7 +183,7 @@ What about relationships between `minutes` and other numeric features? Intuitive
 <br>
 
 <div class="centered-plot">
-  <iframe src="assets/minute_vs_ing.html" 
+  <iframe src="assets/min_vs_ing.html" 
   width="1200" height="400"
   frameborder="0"
   ></iframe>
