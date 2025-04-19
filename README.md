@@ -234,7 +234,7 @@ We also looked at the learned coefficients to interpret the baseline model. The 
 
 <div class="centered-plot">
   <iframe src="assets/min_vs_step_cal.html" 
-  width="1200" height="400"
+  width="1200" height="600"
   frameborder="0"
   ></iframe>
   <div class="caption">Figure 8: Overlaid predicition of our baseline model</div>

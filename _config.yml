@@ -1,2 +1,13 @@
+title: I’m starving, how long is dinner gonna take?
+description: A multiple linear regression approach to predicting the number of minutes needed to make your dinner.
+author: Malik Alabbas
+email: your_email@example.com
+theme: minima
+
+# Enable the dark skin
 minima:
   skin: dark
+  social_links:
+    github: alabbasm
+
+
