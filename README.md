@@ -49,8 +49,13 @@ Interestingly, we noticed that some ratings were recorded as **0**, which isn’
 The distribtuion of the `avg_rating` column pre and post imputation is shown below. 
 
 <div class="centered-plot">
-  <iframe src="assets/rating_kde_imputation.html" width="1000" height="600"></iframe>
+  <iframe 
+  src="assets/rating_kde_imputation.html" 
+  width="1200" height="400"
+   frameborder="0"
+></iframe>
   <div class="caption">Figure 1: Rating before and after mean imputation</div>
+  
 </div>
 
 We can see that mean imputation does not destroy the overall trend of the data, so it seems like a fine technique to use. 
@@ -81,12 +86,12 @@ During our EDA it was found that many of the numerical columns like `minutes`, `
 To make it easier on a potential user of this model, the macronutrient columns (`calories`,`protein`,`total fat`,`sugar`,`saturated fat`), were converted from PDV to grams, as its more likely a user would know the macaronutrients in their recipe as grams, not as a PDV.  
 
  <div class="centered-plot">
-  <iframe src="assets/minutes_before_filt.html" width="1000" height="600"></iframe>
+  <iframe src="assets/minutes_before_filt_1.html" width="1000" height="600"></iframe>
   <div class="caption">Figure 2: Minutes Before Filtering</div>
 </div>
 
 <div class="centered-plot">
-  <iframe src="assets/minutes_after_filt.html" width="1000" height="600"></iframe>
+  <iframe src="assets/minutes_after_filt_1.html" width="1000" height="600"></iframe>
   <div class="caption">Figure 3: Minutes After Filtering</div>
 </div>
 
@@ -130,7 +135,7 @@ The distribution of recipe cooking times is right-skewed, with most recipes taki
 We can also see if certain types of recipes tend to take longer. For example, a boxplot of `minutes` grouped by `recipe_type` could show that *desserts* versus *main dishes* have different prep time distributions. We can see that there's definite variance between the different `recipe type`'s. A table grouped by recipe types showing the mean of every recipe type in ascending order shows this a bit better.
 
 <div class="centered-plot">
-  <iframe src="assets/min_by_r_type.html" width="1000" height="600"></iframe>
+  <iframe src="assets/min_by_r_type_1.html" width="1200" height="600"></iframe>
   <div class="caption">Figure 6: Minutes by Recipe Type</div>
 </div>
 
