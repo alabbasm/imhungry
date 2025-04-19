@@ -83,8 +83,8 @@ During our EDA it was found that many of the numerical columns like `minutes`, `
 To make it easier on a potential user of this model, the macronutrient columns (`calories`,`protein`,`total fat`,`sugar`,`saturated fat`), were converted from PDV to grams, as its more likely a user would know the macaronutrients in their recipe as grams, not as a PDV.  
 
  <div class="centered-plot">
-  <iframe src="assets/minutes_before_filt_1.html" 
-  width="1200" height="400"
+  <iframe src="assets/minbeforefilt.html" 
+  width="1000" height="400"
   frameborder="0"
   ></iframe>
   <div class="caption">Figure 2: Minutes Before Filtering</div>
@@ -116,8 +116,6 @@ It's important to note here that a lot of the values in `recipe_type` may not ac
 
 Here's the head of `X_recipes`, the final cleaned dataframe that is used in the rest of our project.
 
-<div style="text-align: center;">
-
 |    | name                                |   minutes |   n_steps |   n_ingredients |   rating |   calories |   total_fat_g |   saturated_fat_g |   sugar_g |   protein_g |   sodium_mg |   carbohydrates_g | recipe_type   |
 |---:|:------------------------------------|----------:|----------:|----------------:|---------:|-----------:|--------------:|------------------:|----------:|------------:|------------:|------------------:|:--------------|
 | 13 | pinards en branche  sauted spinach  |        50 |        13 |               4 |     5    |       61.8 |          3.9  |               1.8 |       1   |         4.5 |         138 |              2.75 | spinach       |
@@ -125,7 +123,6 @@ Here's the head of `X_recipes`, the final cleaned dataframe that is used in the 
 | 17 | berry french toast  oatmeal         |        12 |         5 |               6 |     4.75 |      190.9 |          6.24 |               0.6 |       1   |         6.5 |           0 |             24.75 | other         |
 | 32 | near east  rice pilaf  low fat      |        25 |         8 |               8 |     4.5  |      236.9 |          2.34 |               0.2 |       0.5 |         5   |           0 |             41.25 | chicken       |
 | 33 | outback   steak rub                 |         5 |         1 |               8 |     4    |        6.6 |          0    |               0   |       0   |         0   |         874 |              0    | other         |
-</div>
 
 ### Exploring the `minutes` column  
 Now, let’s dive into the data! First up: **cooking time (`minutes`)**. How are recipe durations distributed? Is there a typical cook time most recipes fall under? In a histogram of `minutes`, we might see a peak around shorter times (e.g. many recipes take 20-40 minutes) and a long tail of recipes that take hours. 
