@@ -4,13 +4,6 @@ author: Malik Alabbas
 email: alabbas@umich.com
 theme: minima
 
-sass:
-  load_paths:
-    - _sass/minima
-    - _sass
-
-include:
-  - head-custom.html
 
 # Enable the dark skin
 minima:
