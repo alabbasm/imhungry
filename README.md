@@ -40,7 +40,6 @@ To start let's report some information about our datasets. We have two: `recipes
 
 ## Data Cleaning and Exploratory Data Analysis  
 
-
 ### Cleaning our data  
 We began by merging the two datasets (`recipes.csv` and `ratings.csv`) on their shared `id` column so that each recipe would include the user feedback. From the ratings, we computed the average rating per recipe and added this as a new column.
 
@@ -51,11 +50,10 @@ The distribtuion of the `avg_rating` column pre and post imputation is shown bel
 <div class="centered-plot">
   <iframe 
   src="assets/rating_kde_imputation.html" 
-  width="1200" height="500"
+  width="1200" height="400"
    frameborder="0"
 ></iframe>
   <div class="caption">Figure 1: Rating before and after mean imputation</div>
-  
 </div>
 
 We can see that mean imputation does not destroy the overall trend of the data, so it seems like a fine technique to use. 
@@ -87,17 +85,15 @@ To make it easier on a potential user of this model, the macronutrient columns (
 
  <div class="centered-plot">
   <iframe src="assets/minutes_before_filt_1.html" 
-  width="1200" height="500"
+  width="1200" height="540"
   frameborder="0"
   ></iframe>
   <div class="caption">Figure 2: Minutes Before Filtering</div>
 </div>
 
-<br>
-
 <div class="centered-plot">
   <iframe src="assets/minutes_after_filt_1.html" 
-  width="1000" height="600"
+  width="1000" height="400"
   frameborder="0"
   ></iframe>
   <div class="caption">Figure 3: Minutes After Filtering</div>
@@ -114,7 +110,6 @@ Each recipe was then labeled with the top TF-IDF keyword as its “type.”  We 
 |  2 | rice     |     224 |
 |  3 | beans    |     124 |
 |  4 | coffee   |     101 |
-
 <p align="left"><em>Table 1: Top 5 TF-IDF classifications by frequency</em></p>
 
 It's important to note here that a lot of the values in `recipe_type` may not actually have names representative of the actual recipe, but may be associated with the recipe, ie. a major ingredient used in the recipe or something similar. Thus if a user doesn't find the name of their recipe in the column, they may use a common ingredient found in their recipe that is found in the column. Otherwise they must select the `other` option when using our model. 
@@ -135,7 +130,7 @@ Now, let’s dive into the data! First up: **cooking time (`minutes`)**. How are
 
 <div class="centered-plot">
   <iframe src="assets/minutes_after_filt.html" 
-  width="1200" height="600"
+  width="1200" height="400"
   frameborder="0"
   ></iframe>
   <div class="caption">Figure 4: Distribution of Minutes</div>
@@ -147,7 +142,7 @@ We can also see if certain types of recipes tend to take longer. For example, a 
 
 <div class="centered-plot">
   <iframe src="assets/min_by_r_type_1.html" 
-  width="1200" height="600"
+  width="1200" height="400"
   frameborder="0"
   ></iframe>
   <div class="caption">Figure 6: Minutes by Recipe Type</div>
@@ -178,7 +173,7 @@ What about relationships between `minutes` and other numeric features? Intuitive
 
 <div class="centered-plot">
   <iframe src="assets/minute_vs_step.html"
-   width="1200" height="600"
+   width="1200" height="400"
   frameborder="0"
   ></iframe>
   <div class="caption">Figure 7: Scatter Plot of minutes vs n_step</div>
@@ -188,7 +183,7 @@ What about relationships between `minutes` and other numeric features? Intuitive
 
 <div class="centered-plot">
   <iframe src="assets/minute_vs_ing.html" 
-  width="1200" height="600"
+  width="1200" height="400"
   frameborder="0"
   ></iframe>
   <div class="caption">Figure 8: Scatter Plot of minutes vs n_ingredients</div>
@@ -238,7 +233,7 @@ We also looked at the learned coefficients to interpret the baseline model. The 
 
 <div class="centered-plot">
   <iframe src="assets/min_vs_step_cal.html" 
-  width="1200" height="700"
+  width="1200" height="400"
   frameborder="0"
   ></iframe>
   <div class="caption">Figure 8: Overlaid predicition of our baseline model</div>
