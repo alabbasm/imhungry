@@ -220,7 +220,7 @@ Our first attempt is a straightforward **baseline model**. We chose a simple mul
 
 Using these features, we fit a linear regression on 80% of the data (with 20% held out for testing). This is our baseline for comparison. 
 
-**Baseline performance:** The baseline model’s predictions turned out okay but not amazing. The Mean Squared Error (MSE) on the test set was about **175.5**. In more intuitive terms, that means the root mean squared error is around $\sqrt{170} \approx 13 \ \text{minutes}$. So on average, our baseline predictions are about 13 minutes off from the actual time. That’s a sizable gap — if you’re expecting a 30-minute meal, it might actually take 43 minutes, which is the difference between a quick dinner and a long one! Clearly, there’s room for improvement.  
+**Baseline performance:** The baseline model’s predictions turned out okay but not amazing. The Mean Squared Error (MSE) on the test set was about **197.5**. In more intuitive terms, that means the root mean squared error is around $\sqrt{197} \approx 14 \ \text{minutes}$. So on average, our baseline predictions are about 13 minutes off from the actual time. That’s a sizable gap — if you’re expecting a 30-minute meal, it might actually take 43 minutes, which is the difference between a quick dinner and a long one! Clearly, there’s room for improvement.  
 
 We also looked at the learned coefficients to interpret the baseline model. The coefficients suggested that recipes with more steps **do** take longer (each additional step adds roughly 1.3 minutes on average, according to the model). Surprisingly, the calorie count had a smaller effect (the coefficient for `calories` was very low, implying that an extra 100 calories only adds about 1 minute of cook time). This makes sense: calories are more about ingredients than process. The recipe type dummy variables showed slight shifts; for example, the model might have given a positive bump to categories like “roast” (meaning if a recipe is a roast, it predicts a longer time, all else equal) and a negative bump to quick categories like “salad.” However, many of those category effects weren’t very large in the linear model.  
 
@@ -299,20 +299,21 @@ Whew! That’s a lot of moving parts. To manage this systematically, we set up a
 
 After quite a bit of number crunching, we arrived at a final model. Interestingly, the best combination of transformations was to use a **logarithmic transform** (with a relatively high decay rate parameter) on certain features, along with polynomial features of degree 1. (It’s hard to interpret exactly what this means physically, but it suggests some diminishing returns in one area and maybe an overall linear growth in others). The best model ended up being a plain ridge regression with an alpha value of 10 (linear regression didn’t outperform it, though it was very close, implying our features were not causing huge overfitting issues).  
 
-**Final model performance:** Drumroll, please... The improved model brought the test MSE down to about **145**. That’s roughly a 15% reduction in MSE compared to the baseline (170 → 145). In terms of root mean squared error, we went from ~14.8 minutes off to ~12 minutes off. So we gained about a one-minute improvement in average error by all that fancy feature engineering and tuning. Not a huge drop, but an improvement nonetheless!  
+**Final model performance:** Drumroll, please... The improved model brought the test MSE down to about **145**. That’s roughly a 15% reduction in MSE compared to the baseline (197 → 166). In terms of root mean squared error, we went from ~14.8 minutes off to ~12 minutes off. So we gained about a one-minute improvement in average error by all that fancy feature engineering and tuning. Not a huge drop, but an improvement nonetheless!  
 
-|                Model Type                |   Train MSE |   Test MSE |
+|                                |   Train MSE |   Test MSE |
 |:-------------------------------|------------:|-----------:|
-| Baseline Model                 |     172.191 |    166.858 |
-| Linear Regression w Poly feat. |     144.52  |    147.089 |
-| Linear Regression w Log feat.  |     144.519 |    147.089 |
-| Ridge Regression w Poly feat.  |     145.313 |    145.24  |
-| Ridge Regression w Log feat.   |     145.313 |    145.239 |
-| Ridge Regression w both feat. (Final Model) |     145.314 |    145.246 |
+| Baseline Model                 |     192.035 |    197.483 |
+| Linear Regression w Poly feat. |     164.349 |    164.542 |
+| Linear Regression w Log feat.  |     164.873 |    170.878 |
+| Ridge Regression w Poly feat.  |     166.864 |    166.635 |
+| Ridge Regression w Log feat.   |     166.864 |    166.633 |
+| Ridge Regression w both feat.  |     166.865 |    166.634 |
+
 
 <p align="left"><em>Table 5: All models trained and their respective training and testing MSE's</em></p>
 
-We should ask: is this level of error acceptable? **12-13 minutes uncertainty** for a recipe’s cook time might be okay for some scenarios (predicting ~30 min vs actual 45 min is not too bad), but it’s still quite high if someone needs a very accurate estimate. It seems that predicting `minutes` is inherently tricky with the given data. Recipes can always have unobserved factors (technique difficulty, user skill, etc.) that affect prep time. Our model captures the obvious factors, but the variability in cooking is large.  
+We should ask: is this level of error acceptable? **13-14 minutes uncertainty** for a recipe’s cook time might be okay for some scenarios (predicting ~30 min vs actual 45 min is not too bad), but it’s still quite high if someone needs a very accurate estimate. It seems that predicting `minutes` is inherently tricky with the given data. Recipes can always have unobserved factors (technique difficulty, user skill, etc.) that affect prep time. Our model captures the obvious factors, but the variability in cooking is large.  
 
 In the end, we chose to stick with the ridge regression model for our final solution (instead of the Ridge), since it performed essentially the same. The added regularization didn’t yield a noticeable benefit, and the simpler model is easier to interpret and explain.  
 
